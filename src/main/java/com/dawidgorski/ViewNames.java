@@ -1,6 +1,7 @@
 package com.dawidgorski;
 
 public final class ViewNames {
-    final static String HOME_VIEW="home_view";
-    final static String GROUP_VIEW="group_view";
+    final static String HOME="index";
+    final static String FLASHCARDS="flashcards";
+    final static String GROUPS="groups";
 }

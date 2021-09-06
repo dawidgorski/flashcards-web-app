@@ -25,28 +25,26 @@ public class FlashcardService {
     }
 
     public Flashcard getFlashcard(Long id) {
-        log.info("flashcard from service: {}",repository.findById(id).get());
         return repository.findById(id).get();
     }
 
     public void deleteFlashcard(Long id) {
-        Optional<Flashcard> flashcard =findFlashcardById(id);
+        Flashcard flashcard =findFlashcardById(id);
+        repository.delete(flashcard);
+    }
+
+    public Flashcard findFlashcardById(Long id) {
+        Optional<Flashcard> flashcard = repository.findById(id);
         if(flashcard.isEmpty()){
             throw new IllegalStateException();
         }
-        repository.delete(flashcard.get());
-    }
-
-    public Optional<Flashcard> findFlashcardById(Long id) {
-        return repository.findById(id);
+        return flashcard.get();
     }
 
     public void editFlashcard(Long id, Flashcard correctFlashcard) {
-        Optional<Flashcard> flashcard =findFlashcardById(id);
-        if(flashcard.isEmpty()){
-            throw new IllegalStateException();
-        }
-        repository.delete(flashcard.get());
-        repository.save(correctFlashcard);
+        Flashcard flashcard =findFlashcardById(id);
+        flashcard.setEnglish(correctFlashcard.getEnglish());
+        flashcard.setPolish(correctFlashcard.getPolish());
+        flashcard.setDescription(correctFlashcard.getDescription());
     }
 }

@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <title>Title</title>
+    <style>
+        th, td {
+            border: 1px solid black;
+        }
+
+        table {
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        form {
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
+<header>
+</header>
+<section>
+    <table>
+        <caption>Flashcards List</caption>
+        <th>Polish</th>
+        <th>English</th>
+        <th>Description</th>
+        <th>Delete</th>
 
+        <tr th:each="flashcard: ${flashcardsList}">
+            <td th:text="${flashcard.getEnglish}"></td>
+            <td th:text="${flashcard.getPolish}"></td>
+            <td th:text="${flashcard.getDescription()}"></td>
+           <td ><a th:href="${'delete/'+ flashcard.getId()}">X</a> </td>
+        </tr>
+    </table>
+    <form th:action="add" method="post">
+        <label>Enter new Flashcard:</label>
+        <br>
+        <table>
+            <tr>
+                <td>English</td>
+                <td>Polish</td>
+                <td>Description</td>
+            </tr>
+            <tr>
+                <td><input type="text" name="english"></td>
+                <td><input type="text" name="polish"></td>
+                <td><input type="text" name="description"></td>
+            </tr>
+        </table>
+        <input type="submit" value="Submit">
+
+    </form>
+</section>
+<footer>
+</footer>
 </body>
 </html>
