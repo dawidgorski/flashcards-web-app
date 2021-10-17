@@ -4,8 +4,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+
 @Entity
-@Table
+@Table(name= "flashcards")
 @Data
 public class Flashcard {
     @Id
@@ -17,19 +19,25 @@ public class Flashcard {
     private String description;
     @Transient
     private LocalDate lastUse;
-
+    @ManyToOne
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
     public LocalDate getLastUse() {
         this.lastUse = LocalDate.now();
         return lastUse;
     }
 
+    public Flashcard(String english, String polish, String description) {
+        this(english,polish,description,null);
+    }
 
-
-    public Flashcard(String english, String polish,String description) {
+    public Flashcard(String english, String polish, String description, Lesson lesson) {
         this.english = english;
         this.polish = polish;
         this.description = description;
-
+        if (lesson != null){
+            this.lesson = lesson;
+        }
     }
 
     public Flashcard() {
