@@ -2,7 +2,6 @@ package com.dawidgorski;
 
 import com.dawidgorski.model.Flashcard;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,20 +9,20 @@ import java.util.List;
 @Slf4j
 //@RestController
 public class FlashcardAPIController {
-    private final FlashcardService service;
+    private final FlashcardService flashcardService;
 
-    public FlashcardAPIController(FlashcardService service) {
-        this.service = service;
+    public FlashcardAPIController(FlashcardService flashcardService) {
+        this.flashcardService = flashcardService;
     }
 
     @PostMapping("add")
     public void addFlashcard(@RequestBody Flashcard flashcard) {
-        service.createFlashcard(flashcard);
+        flashcardService.createFlashcard(flashcard);
     }
 
     @GetMapping("flashcards")
     public List<Flashcard> getFlashcards() {
-        return service.getFlashcards();
+        return flashcardService.getFlashcards();
     }
 
     /*@GetMapping("/flashcard")
@@ -34,14 +33,14 @@ public class FlashcardAPIController {
     @GetMapping("flashcard/{id}")
     public Flashcard getFlashcard(@PathVariable Long id) {
         log.info("get Flashcard id= {}",id);
-        return service.getFlashcard(id);
+        return flashcardService.getFlashcard(id);
     }
     @DeleteMapping("delete/{id}")
     public void deleteFlashcard(@PathVariable Long id){
-        service.deleteFlashcard(id);
+        flashcardService.deleteFlashcard(id);
     }
     @PatchMapping("edit/{id}")
     public void editFlashcard(@PathVariable Long id,@RequestBody Flashcard correctFlashcard){
-        service.editFlashcard(id,correctFlashcard);
+        flashcardService.editFlashcard(id,correctFlashcard);
     }
 }
