@@ -1,12 +1,13 @@
 package com.dawidgorski;
 
 import com.dawidgorski.model.Flashcard;
+import com.dawidgorski.model.Lesson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @Slf4j
 @Controller
@@ -32,17 +33,12 @@ public class FlashcardWebController {
         return MappingNames.REDIRECT_FLASHCARDS;
     }
 
-    /*@GetMapping("/flashcard")
-    public Flashcard getFlashcard(@RequestParam Long id) {
-        log.info("getflashcard id= {}",id);
-        return service.getFlashcard(id);
-    }*/
     @GetMapping("flashcard/{id}")
     public Flashcard getFlashcard(@PathVariable Long id) {
         log.info("getflashcard id= {}",id);
         return service.getFlashcard(id);
     }
-    @GetMapping("delete/{id}")
+    @GetMapping(MappingNames.DELETE_FLASHCARD+"{id}")
     public String deleteFlashcard(@PathVariable Long id){
         service.deleteFlashcard(id);
         return MappingNames.REDIRECT_FLASHCARDS;
