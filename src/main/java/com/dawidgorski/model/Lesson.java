@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "lessons")
@@ -17,7 +17,7 @@ public class Lesson {
     private String name;
     private LocalDate lastUse;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lesson")
-    private Set<Flashcard> flashcards;
+    private List<Flashcard> flashcards;
 
     public LocalDate getLastUse() {
         this.lastUse = LocalDate.now();
@@ -36,7 +36,7 @@ public class Lesson {
         if (lastUse!= null){
             this.lastUse = lastUse;
         }else{
-            lastUse = LocalDate.now();
+            this.lastUse = LocalDate.now();
         }
     }
 }

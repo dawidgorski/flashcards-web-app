@@ -10,31 +10,37 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class FlashcardService {
-    private final FlashcardRepository repository;
+    private final FlashcardRepository flashcardRepository;
+    private final LessonRepository lessonRepository;
 
-    public FlashcardService(FlashcardRepository repository) {
-        this.repository = repository;
+    public FlashcardService(FlashcardRepository flashcardRepository, LessonRepository lessonRepository) {
+        this.flashcardRepository = flashcardRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     public void createFlashcard(Flashcard flashcard){
-        repository.save(flashcard);
+        flashcardRepository.save(flashcard);
     }
 
     public List<Flashcard> getFlashcards() {
-        return repository.findAll();
+        return flashcardRepository.findAll();
     }
-
+    public List<Flashcard> getFlashcardsByLessonId(Long id){
+        List<Flashcard> list = flashcardRepository.findAllByLessonId(id);
+        log.info("flashcards with id = "+id+" : "+list.size());
+        return flashcardRepository.findAllByLessonId(id);
+    }
     public Flashcard getFlashcard(Long id) {
-        return repository.findById(id).get();
+        return flashcardRepository.findById(id).get();
     }
 
     public void deleteFlashcard(Long id) {
         Flashcard flashcard =findFlashcardById(id);
-        repository.delete(flashcard);
+        flashcardRepository.delete(flashcard);
     }
 
     public Flashcard findFlashcardById(Long id) {
-        Optional<Flashcard> flashcard = repository.findById(id);
+        Optional<Flashcard> flashcard = flashcardRepository.findById(id);
         if(flashcard.isEmpty()){
             throw new IllegalStateException();
         }
