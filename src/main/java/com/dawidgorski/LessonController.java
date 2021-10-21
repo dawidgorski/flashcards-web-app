@@ -1,9 +1,7 @@
 package com.dawidgorski;
 
-import com.dawidgorski.model.Flashcard;
 import com.dawidgorski.model.Lesson;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,16 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LessonController {
     private final LessonService lessonService;
-    private final FlashcardService flashcardService;
-    private final LessonRepository lessonRepository;
 
     public LessonController(LessonService lessonService, com.dawidgorski.FlashcardService flashcardService,LessonRepository lessonRepository) {
         this.lessonService = lessonService;
-        this.flashcardService = flashcardService;
-        this.lessonRepository = lessonRepository;
     }
 
-    @GetMapping(MappingNames.LESSONS_MAPPING)
+    @GetMapping(MappingNames.LESSONS)
     public String getLessons(Model model) {
         model.addAttribute("lessonsList",lessonService.getLessons());
         return ViewNames.LESSONS;
@@ -38,7 +32,7 @@ public class LessonController {
 
     @GetMapping(MappingNames.DELETE_LESSON+"{id}")
     public String deleteLesson(@PathVariable Long id){
-        lessonRepository.deleteById(id);
+        lessonService.deleteLesson(id);
         return MappingNames.REDIRECT_LESSONS;
     }
 
