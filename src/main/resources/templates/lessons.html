@@ -47,7 +47,7 @@
       <th>Last use</th>
       <th>Delete</th>
       <tr th:each="lesson: ${lessonsList}">
-        <td th:text="${lesson.getName()}"></td>
+        <td><a th:text="${lesson.getName()}" th:href="${'flashcards/'+ lesson.getId()}"></a></td>
         <td th:text="${lesson.getFlashcards.size()}"></td>
         <td th:text="${lesson.getLastUse()}"></td>
         <td><a th:href="${'delete_lesson/'+ lesson.getId()}">X</a></td>
