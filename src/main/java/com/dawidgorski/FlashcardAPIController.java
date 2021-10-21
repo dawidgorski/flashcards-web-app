@@ -25,11 +25,6 @@ public class FlashcardAPIController {
         return flashcardService.getFlashcards();
     }
 
-    /*@GetMapping("/flashcard")
-    public Flashcard getFlashcard(@RequestParam Long id) {
-        log.info("get Flashcard id= {}",id);
-        return service.getFlashcard(id);
-    }*/
     @GetMapping("flashcard/{id}")
     public Flashcard getFlashcard(@PathVariable Long id) {
         log.info("get Flashcard id= {}",id);
