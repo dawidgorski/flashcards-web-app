@@ -9,7 +9,6 @@
     <style>
         .container {
             text-align: center;
-
             max-width: 1264px;
             width: 100%;
             background: none;
@@ -45,8 +44,7 @@
 <section>
     <div class="container">
         <table class="centered">
-            <h1></h1>
-            <caption>Flashcards List</caption>
+            <h1 th:text="${lesson_name}"></h1>
             <th>Polish</th>
             <th>English</th>
             <th>Description</th>
@@ -61,7 +59,6 @@
         <div>
             <form method="post" th:action="'add_flashcard'">
                 <label>Enter new Flashcard:</label>
-                <br>
                 <table class="centered">
                     <tr>
                         <td><input name="english" type="text"></td>

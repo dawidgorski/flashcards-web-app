@@ -1,6 +1,7 @@
 package com.dawidgorski;
 
 import com.dawidgorski.model.Flashcard;
+import com.dawidgorski.model.Lesson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ public class FlashcardWebController {
     private final FlashcardService service;
     private final LessonService lessonService;
     long lesson_id;
+    String lesson_name;
 
     public FlashcardWebController(FlashcardService service, LessonService lessonService) {
         this.service = service;
@@ -24,7 +26,7 @@ public class FlashcardWebController {
     @GetMapping(MappingNames.FLASHCARDS + "/{id}")
     public String getFlashcards(Model model, @PathVariable Long id) {
         lesson_id = id;
-        List<Flashcard> list = service.getFlashcardsByLessonId(id);
+        model.addAttribute("lesson_name" ,lessonService.getLesson(id).getName());
        model.addAttribute("lesson_list", service.getFlashcardsByLessonId(id));
         return ViewNames.FLASHCARDS;
     }
