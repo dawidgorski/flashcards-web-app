@@ -1,5 +1,6 @@
 package com.dawidgorski.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Flashcard {
     private LocalDate lastUse;
     @ManyToOne
     @JoinColumn(name = "lesson_id")
+    @JsonIgnore
     private Lesson lesson;
     public LocalDate getLastUse() {
         this.lastUse = LocalDate.now();
