@@ -16,7 +16,6 @@ public class FlashcardWebController {
     private final FlashcardService service;
     private final LessonService lessonService;
     long lesson_id;
-    String lesson_name;
 
     public FlashcardWebController(FlashcardService service, LessonService lessonService) {
         this.service = service;

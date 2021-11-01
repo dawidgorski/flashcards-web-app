@@ -23,6 +23,7 @@ public class LessonController {
         model.addAttribute("lessonsList",lessonService.getLessons());
         return ViewNames.LESSONS;
     }
+
     @PostMapping(MappingNames.ADD_LESSON)
     public String addLesson(@RequestParam String name) {
         Lesson lesson = new Lesson(name);

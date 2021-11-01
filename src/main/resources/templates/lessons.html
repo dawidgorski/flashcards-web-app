@@ -3,69 +3,320 @@
 <head>
     <meta charset="UTF-8">
     <title>Lessons</title>
-  <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_big-stone.css">
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_big-stone.css" rel="stylesheet">
+    <!--    <link rel="stylesheet" href="./awsm_theme_big-stone.css">-->
+    <style>
+        html{
+            color: black;
+        }
+        table{
+            padding-top: 5px;
+            border: none;
+        }
+        th, td {
+            border: 1px solid black;
+            width: 100px;
+            text-decoration: none;
+        }
 
-  <style>
-    .container {
-      text-align:center;
+        tr {
+            text-align: center;
+        }
+        /*a:visited{*/
+        /*    text-decoration: none;*/
+        /*    color:black;*/
+        /*}*/
 
-      max-width: 1264px;
-      width: 100%;
-      background: none;
-      justify-content: space-between;
-      margin: 0 auto;
-    }
-    th, td {
-      border: 1px solid black;
-      width: 100px;
-    }
-    .centered{
-      margin: auto;
-    }
-    table {
-      table-layout: fixed;
-      overflow: hidden;
-      border-collapse: separate;
-    }
 
-    form {
-      padding: 10px;
-    }
+        /*a:hover, a:active {*/
+        /*    color: #1570ab;*/
+        /*}*/
 
-  </style>
+        /*a:hover {*/
+        /*    color: #1570ab;*/
+        /*}*/
+        .black-a{
+                text-decoration: none;
+                color:black;
+        }
+        .black-a:visited{
+                text-decoration: none;
+                color:black;
+        }
+        .black-a:hover, a:active {
+            color: #99c0c9;
+        }
+
+        .black-a:hover {
+            color: #99c0c9;
+        }
+        .white-a{
+            text-decoration: none;
+            color:black;
+        }
+
+        .white-a:visited{
+            text-decoration: none;
+            color:#99c0c9;
+        }
+        .white-a:hover, a:active {
+            color: #99c0c9;
+        }
+
+        .white-a:hover {
+            color: #99c0c9;
+        }
+        .row {
+            padding: 7px;
+            display: inline-flex;
+        }
+
+        .menu {
+            width: 100%;
+        }
+
+        img {
+            height: 35%;
+            width: 35%;
+        }
+
+        .btn {
+            border: #1b2d3e;
+            background: #1b2d3e;
+            width: 100%;
+            height: 100%;
+        }
+        .btn:hover {
+            border: #1b2d3e;
+        }
+
+        .btn:not([disabled]):hover{
+            border:none;
+        }
+        .btn:active{
+            background-color:#1b2d3e;
+        }
+        #sentence {
+            color: #99c0c9;
+            font-size: 2rem;
+        }
+
+    </style>
 </head>
 <body>
+<script th:inline="javascript">
+    var alert = new CustomAlert();
+    var lessons = /*[[${lessonsList}]]*/ null;
+    var flashcards = [];
+    var current_flashcard;
+    var incorrect_flashcards =[];
+    var correct_flashcards =[]
+    var j = 0;
+    var all_flashcards_in_lesson_length = 0 ;
+    var correct_flashcards_in_lesson_length;
+
+    function CustomAlert() {
+        this.init_buttons  = function(){
+            document.getElementById('i_know').innerHTML = '<button onclick="alert.do_know()">I know</button>';
+            document.getElementById('i_dont_know').innerHTML = '<button onclick="alert.dont_know()">I dont know</button>';
+            document.getElementById('show_answer').innerHTML = '<button onclick="alert.show_answer()">Show answer</button>';
+            document.getElementById('exit').innerHTML = '<button onclick="alert.ok()">exit</button>';
+            document.getElementById('next_round').innerHTML = '<button onclick="alert.next_round()">Next Round</button>';
+        }
+        this.render = function (lesson_id) {
+            flashcards = [];
+            incorrect_flashcards=[]
+            correct_flashcards =[]
+            correct_flashcards_in_lesson_length = 0;
+            j=0;
+            var flashcards_current_lesson=[];
+            if(lesson_id ===0){
+                for (var i = 0; i < lessons.length; i++) {
+                    flashcards_current_lesson = lessons[i].flashcards
+                    flashcards= flashcards.concat(flashcards_current_lesson);
+                }
+            }else{
+                for (var i = 0; i < lessons.length; i++) {
+                    if (lesson_id === lessons[i].id) {
+                        flashcards = lessons[i].flashcards;
+                    }
+                }
+            }
+            all_flashcards_in_lesson_length = flashcards.length;
+            this.init_buttons()
+            document.getElementById('popUpBox').style.display = "block";
+            document.getElementById('next_round').style.display = "none";
+
+            if (flashcards.length === 0) {
+                this.lesson_empty()
+            }else{
+                this.next_flashcard()
+            }
+  }
+
+        this.next_flashcard = function () {
+            document.getElementById('next_round').style.display = "none";
+             // document.getElementById('test2').innerText =' j:'+j.toString()
+            if (flashcards.length === j) {
+                this.summary()
+                return;
+            }
+            if (flashcards.length > j) {
+                    current_flashcard = flashcards[j]
+                    j++;
+                }
+            // document.getElementById('test').innerText =' flashcards:'+(flashcards.length).toString();
+            //   document.getElementById('test3').innerText =" english:" + current_flashcard.english.toString();
+            //    document.getElementById('test4').innerText =" incorrectflashcards:" + incorrect_flashcards.length.toString();
+
+
+            document.getElementById('popUpBox').style.display = "block";
+            document.getElementById('show_answer').style.display = "block";
+            document.getElementById('i_know').style.display = "none";
+            document.getElementById('i_dont_know').style.display = "none";
+            document.getElementById('sentence').innerText = current_flashcard.english;
+
+        }
+        this.dont_know = function () {
+            document.getElementById('i_know').style.display = "none";
+            document.getElementById('i_dont_know').style.display = "none";
+            if(!incorrect_flashcards.includes(current_flashcard)){
+              incorrect_flashcards.push(current_flashcard)
+                // document.getElementById('test4').innerText =" incorrectflashcards:" + incorrect_flashcards.length.toString();
+            }
+            this.next_flashcard()
+        }
+        this.do_know = function () {
+            document.getElementById('i_know').style.display = "none";
+            document.getElementById('i_dont_know').style.display = "none";
+            correct_flashcards_in_lesson_length++
+            if((incorrect_flashcards.includes(current_flashcard)) && (!correct_flashcards.includes(current_flashcard))){
+                 correct_flashcards.push(current_flashcard)
+                // document.getElementById('test4').innerText =" incorrectflashcards:" + incorrect_flashcards.length.toString();
+            }
+            this.next_flashcard()
+
+        }
+        this.show_answer = function () {
+            document.getElementById('i_know').style.display = "block";
+            document.getElementById('i_dont_know').style.display = "block";
+            document.getElementById('show_answer').style.display = "none";
+            document.getElementById('sentence').innerHTML = current_flashcard.polish;
+
+        }
+        this.lesson_empty = function () {
+
+            document.getElementById('popUpBox').style.display = "block";
+            document.getElementById('exit').style.display = "block";
+            document.getElementById('show_answer').style.display = "none";
+            document.getElementById('i_know').style.display = "none";
+            document.getElementById('i_dont_know').style.display = "none";
+            document.getElementById('sentence').innerHTML = "There is no flashcards here."
+        }
+        this.next_round =function(){
+            j=0;
+              incorrect_flashcards = incorrect_flashcards.filter(x => !correct_flashcards.includes(x))
+            flashcards = incorrect_flashcards;
+            // document.getElementById('test4').innerText =" incorrectflashcards:" + incorrect_flashcards.length.toString();
+             correct_flashcards =[];
+            // document.getElementById('test').innerText =j.toString()
+            // document.getElementById('test2').innerText =(flashcards.length).toString();
+
+            this.next_flashcard();
+        }
+        this.summary = function (){
+            document.getElementById('i_know').style.display = "none";
+            document.getElementById('i_dont_know').style.display = "none";
+            document.getElementById('show_answer').style.display = "none";
+            document.getElementById('next_round').style.display = "block";
+            if (correct_flashcards_in_lesson_length === all_flashcards_in_lesson_length){
+                document.getElementById('next_round').style.display = "none";
+            }
+             document.getElementById('sentence').innerText= "You already know " +(correct_flashcards_in_lesson_length).toString() + "/" + all_flashcards_in_lesson_length.toString()+" words";
+        }
+
+        this.ok = function () {
+            document.getElementById('popUpBox').style.display = "none";
+// document.getElementById('popUpOverlay').style.display = "block";
+        }
+    }
+</script>
+
 <header>
 </header>
-<section>
-  <div class="container">
-    <table class="centered">
-      <h1></h1>
-      <caption>Lessons List</caption>
-      <th>Name</th>
-      <th>Flashcards</th>
-      <th>Last use</th>
-      <th>Delete</th>
-      <tr th:each="lesson: ${lessonsList}">
-        <td><a th:text="${lesson.getName()}" th:href="${'flashcards/'+ lesson.getId()}"></a></td>
-        <td th:text="${lesson.getFlashcards.size()}"></td>
-        <td th:text="${lesson.getLastUse()}"></td>
-        <td><a th:href="${'delete_lesson/'+ lesson.getId()}">X</a></td>
-      </tr>
-    </table>
-    <form th:action="add_lesson" method="post">
-      <label>Enter new lesson:</label>
-      <br>
-      <table class="centered">
-        <tr>
-          <td><input type="text" name="name"></td>
-          <td><input type="submit" value="Submit"></td>
-        </tr>
-      </table>
-    </form>
-  </div>
+
+<section id="popUpOverlay">
+    <div class="container">
+        <table>
+            <h2>My lessons</h2>
+            <th>Name</th>
+            <th>Flashcards</th>
+            <th>Last use</th>
+            <th>Study</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <tr th:each="lesson: ${lessonsList}">
+                <td class="flashcard-name"><a class="black-a" th:text="${lesson.getName()}"
+                                              th:href="${'flashcards/'+ lesson.getId()}"></a></td>
+                <td th:text="${lesson.getFlashcards.size()}"></td>
+                <td th:text="${lesson.getLastUse()}"></td>
+                <td>
+                    <button th:onclick="'javascript:alert.render(' + ${lesson.getId()} + ');'" class="btn"><img
+                            height="200%" src="https://www.pngrepo.com/png/201668/180/brain.png"></button>
+                </td>
+                <td><a th:href="${'flashcards/'+ lesson.getId()}"><img
+                        src="https://www.pngrepo.com/png/246383/180/edit-pencil.png"></a></td>
+                <td><a th:href="${'delete_lesson/'+ lesson.getId()}"><img
+                        src="https://www.pngrepo.com/png/60993/180/delete.png"></a></td>
+            </tr>
+
+        </table>
+
+        <div id="popUpBox">
+            <div id="box">
+                <div id="sentence">entertainment</div>
+                <div class=bottom-bar>
+                    <div class="button-bar">
+                        <div id="next_round"></div>
+                        <div class="row" id="i_know"></div>
+                        <div class="row" id="i_dont_know"></div>
+                    </div>
+                    <div class="row" id="show_answer"></div>
+                    <div id="exit"></div>
+<!--                    <label id="test">test</label>-->
+<!--                    <label id="test2">test</label>-->
+<!--                    <label id="test3">test</label>-->
+<!--                    <label id="test4">test</label>-->
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="menu">
+            <div class="row">
+                <button onclick="alert.render(0)" >Study now all</button>
+            </div>
+
+            <div class="row">
+                <button  ><a class="white-a"href="/lessons">Add from file</a></button>
+            </div>
+        </div>
+
+        <div class="button-bar">
+            <form th:action="add_lesson" method="post">
+                <div class="row">
+                    <div><input th:value="New... " type="text" name="name"></div>
+                    <div><input type="submit" value="Add lesson"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </section>
 <footer>
 </footer>
+<!--<script src="./app.js" th:inline="javascript"></script>-->
 </body>
 </html>
