@@ -1,0 +1,57 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    text-align: center;
+    max-width: 1264px;
+    width: 50%;
+    background: none;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+.button-bar{
+    padding: 5px;
+  width: 100%;
+
+}
+.bottom-bar{
+    width: 100%;
+}
+
+#box{
+    width: 80%;
+    height: 20%;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#i_dont_know{
+    display: none;
+
+}
+#i_know{
+    display: none;
+
+}
+#show_answer{
+    clear:both;
+}
+#popUpBox{
+    width: 400px;
+    height: 500px;
+    overflow: hidden;
+    background: #1b2d3e;
+    box-shadow: 0 0 10px black;
+    border-radius: 10px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    padding: 10px;
+    text-align: center;
+    display: none;
+}
