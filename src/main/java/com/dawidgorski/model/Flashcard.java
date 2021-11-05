@@ -1,6 +1,7 @@
 package com.dawidgorski.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.opencsv.bean.CsvBindByName;
 import lombok.Data;
 
 import javax.persistence.*;

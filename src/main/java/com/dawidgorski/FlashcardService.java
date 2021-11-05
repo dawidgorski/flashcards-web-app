@@ -1,9 +1,17 @@
 package com.dawidgorski;
 
 import com.dawidgorski.model.Flashcard;
+import com.dawidgorski.model.Lesson;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +60,31 @@ public class FlashcardService {
         flashcard.setEnglish(correctFlashcard.getEnglish());
         flashcard.setPolish(correctFlashcard.getPolish());
         flashcard.setDescription(correctFlashcard.getDescription());
+    }
+
+    public void createFlashcards(MultipartFile file, Lesson lesson) {
+        List<Flashcard> flashcards =new ArrayList<>();
+        try (InputStream input =file.getInputStream();
+             CSVReader reader = new CSVReaderBuilder(new InputStreamReader(input)).withCSVParser(new CSVParser()).build();){
+            String[] line;
+
+            while ((line = reader.readNext()) != null) {
+                log.info(""+line.toString()+"  "+line[0]);
+                Flashcard flashcard = new Flashcard();
+                flashcard.setEnglish(line[0]);
+                flashcard.setPolish(line[1]);
+                flashcard.setDescription(line[2]);
+                flashcard.setLesson(lesson);
+                flashcards.add(flashcard);
+            }
+            flashcardRepository.saveAll(flashcards);
+        } catch (CsvValidationException csvValidationException) {
+            csvValidationException.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+
+
     }
 }

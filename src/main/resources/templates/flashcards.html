@@ -3,20 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Flashcards</title>
-    <link rel="stylesheet" href="./style.css">
+<!--    <link rel="stylesheet" href="./style.css">-->
     <link href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_big-stone.css" rel="stylesheet">
     <style>
         form select, form input[type], form textarea{
             margin-bottom: 0px;
+            width: 100%;
+        }
+        input[type="file"]{
+            display:none;
+            padding: calc(.25em - 1px) 0.5em;
+            font-size: 1em;
         }
         html{
             color: black;
         }
+        .alert {
+            color: red;
+        }
+        body{
+            font-size: 1.125rem;
+        }
         .container {
             text-align: center;
-            max-width: 475px;
-            width: 100%;
-            /*background: none;*/
+            max-width: 1264px;
+            width: 50%;
+            background: none;
             justify-content: space-between;
             margin: 0 auto;
         }
@@ -25,16 +37,21 @@
             border: none;
             padding-top: 5px;
             text-align: center;
+            background: none;
+            display: inline;
+            padding-bottom: 5px;
+
         }
-        th, td {
-            border: none;
-            width: 100px;
+
+        table th, table td {
+            width: 8%;
+            font-size: 1em;
             text-decoration: none;
         }
 
+
         form {
-            padding-top: 10px;
-            max-width: 100%;
+           max-width: 100%;
         }
         button {
             padding: 8px;
@@ -55,16 +72,32 @@
             padding: 10px;
         }
         img{
-            height: 35%;
-            width: 35%;
+            height: 25px;
+            width: 25px;
         }
         label{
             text-align: left;
+            padding-top: 5px;
+            padding-bottom: 5px;
         }
+
+        .file-upload-label {
+            background: #184165;
+            cursor: pointer;
+            color: #99c0c9;
+            border: 1px solid #145e86;
+            padding: 8px;
+            height: 1em;
+        }
+        .file-upload-label:hover {
+            border: 1px solid #99c0c9;
+        }
+
 
     </style>
 </head>
 <body>
+
 <header>
 </header>
 <section>
@@ -87,9 +120,9 @@
                 <label>Enter new Flashcard:</label>
                 <table class="new_flashcard_table">
                     <tr>
-                        <td><input name="english" type="text"></td>
-                        <td><input name="polish" type="text"></td>
-                        <td><input name="description" type="text"></td>
+                        <td><input name="english" type="text" placeholder="english"></td>
+                        <td><input name="polish" type="text" placeholder="polish"></td>
+                        <td><input name="description" type="text" placeholder="description"></td>
                         <td><input type="submit" value="Submit"></td>
                     </tr>
                 </table>
@@ -101,14 +134,17 @@
                 <button><a class="white-button" href="/lessons">Lessons</a></button>
             </div>
             <div class="row">
-
-<!--                                <form action="/action_page.php">-->
-<!--                    <input type="file" id="myFile" name="filename"  accept="image/png, image/jpeg">-->
-<!--                    <input type="submit">-->
-<!--                </form>-->
-<!--                <button><a class="white-button" href="/lessons">Add from file</a></button>-->
+                <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+                    <div class="menu">
+                        <label class="file-upload-label">Select File
+                            <input class="flex-content" type="file" name="file" id="file"  accept=".csv,.txt" onchange="form.submit()">
+                        </label>
+                    </div>
+                </form>
+                <!--                <button><a class="white-button" href="/lessons">Add from file</a></button>-->
             </div>
         </div>
+        <p th:text="${message}" th:if="${message ne null}" class="alert "></p>
     </div>
 </section>
 

@@ -1,9 +1,13 @@
 package com.dawidgorski.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import lombok.Data;
+import org.springframework.boot.context.properties.bind.Name;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,6 +18,7 @@ public class Lesson {
     @SequenceGenerator(name = "sequence_gen", sequenceName = "sequence_gen", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
     private Long id;
+    @NotEmpty(message = "The lesson name can't be empty")
     private String name;
     private LocalDate lastUse;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lesson")
