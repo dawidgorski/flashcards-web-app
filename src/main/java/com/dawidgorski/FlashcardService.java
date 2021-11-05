@@ -73,7 +73,12 @@ public class FlashcardService {
                 Flashcard flashcard = new Flashcard();
                 flashcard.setEnglish(line[0]);
                 flashcard.setPolish(line[1]);
-                flashcard.setDescription(line[2]);
+                try {
+                    flashcard.setDescription(line[2]);
+                }catch (ArrayIndexOutOfBoundsException e){
+                    flashcard.setDescription("");
+                }
+
                 flashcard.setLesson(lesson);
                 flashcards.add(flashcard);
             }

@@ -86,8 +86,11 @@
             cursor: pointer;
             color: #99c0c9;
             border: 1px solid #145e86;
-            padding: 8px;
-            height: 1em;
+            /*padding: 8px;*/
+            padding-bottom:  10px;
+            padding-left:  8px;
+            padding-right:  8px;
+            height: 1.05em;
         }
         .file-upload-label:hover {
             border: 1px solid #99c0c9;
@@ -136,7 +139,7 @@
             <div class="row">
                 <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
                     <div class="menu">
-                        <label class="file-upload-label">Select File
+                        <label class="file-upload-label">Add from file
                             <input class="flex-content" type="file" name="file" id="file"  accept=".csv,.txt" onchange="form.submit()">
                         </label>
                     </div>
