@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-//@RestController
+@RestController
 public class FlashcardAPIController {
     private final FlashcardService flashcardService;
     private final LessonService lessonService;
@@ -18,30 +18,30 @@ public class FlashcardAPIController {
         this.lessonService = lessonService;
     }
 
-    @PostMapping("add")
+    @PostMapping("api/add")
     public void addFlashcard(@RequestBody Flashcard flashcard) {
         flashcardService.createFlashcard(flashcard);
     }
-//    @GetMapping("lessons")
-//    public List<Lesson> getLessons() {
-//        return lessonService.getLessons();
-//    }
+    @GetMapping("api/lessons")
+    public List<Lesson> getLessons() {
+        return lessonService.getLessons();
+    }
 
-    @GetMapping("flashcards")
-    public List<Flashcard> getFlashcards() {
+    @GetMapping("api/flashcards")
+    public List<Flashcard> getFlashcardsJSON() {
         return flashcardService.getFlashcards();
     }
 
-    @GetMapping("flashcard/{id}")
-    public Flashcard getFlashcard(@PathVariable Long id) {
+    @GetMapping("api/flashcard/{id}")
+    public Flashcard getFlashcardJSON(@PathVariable Long id) {
         log.info("get Flashcard id= {}",id);
         return flashcardService.getFlashcard(id);
     }
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("api/delete/{id}")
     public void deleteFlashcard(@PathVariable Long id){
         flashcardService.deleteFlashcard(id);
     }
-    @PatchMapping("edit/{id}")
+    @PatchMapping("api/edit/{id}")
     public void editFlashcard(@PathVariable Long id,@RequestBody Flashcard correctFlashcard){
         flashcardService.editFlashcard(id,correctFlashcard);
     }
