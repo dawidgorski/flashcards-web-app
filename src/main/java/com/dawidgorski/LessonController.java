@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -16,8 +13,7 @@ import javax.validation.Valid;
 @Controller
 public class LessonController {
     private final LessonService lessonService;
-
-    public LessonController(LessonService lessonService, com.dawidgorski.FlashcardService flashcardService, LessonRepository lessonRepository) {
+    public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
     }
 
@@ -33,12 +29,18 @@ public class LessonController {
         return new Lesson();
     }
 
+    @PostMapping("update_last_use")
+    public String updateLastUse(@RequestParam(value = "lesson_id")String lesson_id){
+        Long id= Long.parseLong(lesson_id);
+        lessonService.updateLessonLastUse(id);
+        return MappingNames.REDIRECT_LESSONS;
+    }
+
     @PostMapping(MappingNames.ADD_LESSON)
     public String addLesson(@Valid Lesson lesson, BindingResult result,Model model) {
         if (result.hasErrors()) {
             model.addAttribute("lesson",lesson);
             model.addAttribute("lessonsList", lessonService.getLessons());
-            log.info(""+result.hasErrors());
             return ViewNames.LESSONS;
         }
         lessonService.createLesson(lesson);

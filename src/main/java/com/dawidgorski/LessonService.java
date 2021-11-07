@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @Service
@@ -18,6 +17,7 @@ public class LessonService {
         this.repository = repository;
     }
     public void createLesson(Lesson lesson){
+        lesson.setLastUse();
         repository.save(lesson);
     }
 
@@ -30,8 +30,21 @@ public class LessonService {
     }
 
     public void deleteLesson(Long id) {
-        Lesson Lesson =findLessonById(id);
-        repository.delete(Lesson);
+        Lesson lesson =findLessonById(id);
+        repository.delete(lesson);
+    }
+    public void editLesson(Long id, Lesson correctLesson) {
+        Lesson lesson =findLessonById(id);
+        lesson.setName(correctLesson.getName());
+        lesson.setLastUse(correctLesson.getLastUse());
+    }
+    public void updateLessonLastUse(Long id) {
+        log.info("id: "+id);
+        Lesson lessonToUpdate = repository.getById(id);
+        lessonToUpdate.setLastUse();
+        repository.save(lessonToUpdate);
+
+
     }
     public Lesson findLessonById(Long id) {
         Optional<Lesson> lesson = repository.findById(id);

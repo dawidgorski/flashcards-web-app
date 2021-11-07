@@ -1,12 +1,7 @@
 package com.dawidgorski.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
-import lombok.Data;
-import org.springframework.boot.context.properties.bind.Name;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,7 +20,6 @@ public class Lesson {
     public List<Flashcard> flashcards;
 
     public LocalDate getLastUse() {
-        this.lastUse = LocalDate.now();
         return lastUse;
     }
 
@@ -33,16 +27,12 @@ public class Lesson {
     }
 
     public Lesson(String name) {
-        this(name,null);
+        this(name, null);
 
     }
+
     public Lesson(String name, LocalDate lastUse) {
         this.name = name;
-        if (lastUse!= null){
-            this.lastUse = lastUse;
-        }else{
-            this.lastUse = LocalDate.now();
-        }
     }
 
     public Long getId() {
@@ -57,8 +47,12 @@ public class Lesson {
         this.name = name;
     }
 
-    public void setLastUse(LocalDate lastUse) {
-        this.lastUse = lastUse;
+    public void setLastUse() {
+        this.lastUse = LocalDate.now();
+    }
+
+    public void setLastUse(LocalDate dateTime) {
+        this.lastUse = dateTime;
     }
 
     public List<Flashcard> getFlashcards() {

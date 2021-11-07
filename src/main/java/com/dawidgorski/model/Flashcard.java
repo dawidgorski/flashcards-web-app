@@ -1,10 +1,10 @@
 package com.dawidgorski.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.opencsv.bean.CsvBindByName;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Entity
@@ -15,31 +15,23 @@ public class Flashcard {
     @SequenceGenerator(name="sequence_gen",sequenceName ="sequence_gen",allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
     private Long id;
+    @NotEmpty(message = "english word can't be empty")
     private String english;
+    @NotEmpty(message = "polish word can't be empty")
     private String polish;
     private String description;
-    @Transient
-    private LocalDate lastUse;
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     @JsonIgnore
     private Lesson lesson;
-    public LocalDate getLastUse() {
-        this.lastUse = LocalDate.now();
-        return lastUse;
-    }
-
-    public Flashcard(String english, String polish, String description) {
-        this(english,polish,description,null);
-    }
+//    private boolean isHard;
 
     public Flashcard(String english, String polish, String description, Lesson lesson) {
         this.english = english;
         this.polish = polish;
         this.description = description;
-        if (lesson != null){
-            this.lesson = lesson;
-        }
+        this.lesson = lesson;
+//        isHard = false;
     }
 
     public Flashcard() {

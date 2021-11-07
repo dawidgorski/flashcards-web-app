@@ -20,9 +20,6 @@
             text-align: center;
             background: none;
             display: inline;
-
-
-
         }
 
         table th, table td {
@@ -31,21 +28,6 @@
             text-decoration: none;
         }
 
-
-
-        /*a:visited{*/
-        /*    text-decoration: none;*/
-        /*    color:black;*/
-        /*}*/
-
-
-        /*a:hover, a:active {*/
-        /*    color: #1570ab;*/
-        /*}*/
-
-        /*a:hover {*/
-        /*    color: #1570ab;*/
-        /*}*/
         .black-a {
             text-decoration: none;
             color: black;
@@ -81,10 +63,10 @@
         .white-a:hover {
             color: #99c0c9;
         }
-        /*/////////////////*/
-        .white-a[disabled]{
+
+        .white-a[disabled] {
             color: #99c0c9;
-            cursor:not-allowed;
+            cursor: not-allowed;
         }
 
         .row {
@@ -145,8 +127,12 @@
         form input[type] {
             margin-bottom: 0px;
         }
-        .mixed_container{
 
+        .mixed_container {
+
+        }
+        #update_form{
+            display: none;
         }
     </style>
 </head>
@@ -161,7 +147,6 @@
     var j = 0;
     var all_flashcards_in_lesson_length = 0;
     var correct_flashcards_in_lesson_length;
-
     function CustomAlert() {
         this.init_buttons = function () {
             document.getElementById('i_know').innerHTML = '<button id="button_left" onclick="alert.do_know()">I know</button>';
@@ -171,9 +156,8 @@
             document.getElementById('next_round').innerHTML = '<button onclick="alert.next_round()">Next Round</button>';
         }
         this.render = function (lesson_id) {
-            //  $("#popUpOverlay").append('<div class="modalOverlay">');
-            // $("#popUpOverlay").addClass('modalOverlay');
             document.getElementById("popUpOverlay").style.display = "block";
+            document.getElementById("form_input_lesson_id").value = lesson_id.toString();
             flashcards = [];
             incorrect_flashcards = []
             correct_flashcards = []
@@ -186,6 +170,7 @@
                     flashcards = flashcards.concat(flashcards_current_lesson);
                 }
             } else {
+
                 for (var i = 0; i < lessons.length; i++) {
                     if (lesson_id === lessons[i].id) {
                         flashcards = lessons[i].flashcards;
@@ -196,17 +181,14 @@
             this.init_buttons()
             document.getElementById('popUpBox').style.display = "block";
             document.getElementById('next_round').style.display = "none";
-
             if (flashcards.length === 0) {
                 this.lesson_empty()
             } else {
                 this.next_flashcard()
             }
         }
-
         this.next_flashcard = function () {
             document.getElementById('next_round').style.display = "none";
-            // document.getElementById('test2').innerText =' j:'+j.toString()
             if (flashcards.length === j) {
                 this.summary()
                 return;
@@ -215,24 +197,17 @@
                 current_flashcard = flashcards[j]
                 j++;
             }
-            // document.getElementById('test').innerText =' flashcards:'+(flashcards.length).toString();
-            //   document.getElementById('test3').innerText =" english:" + current_flashcard.english.toString();
-            //    document.getElementById('test4').innerText =" incorrectflashcards:" + incorrect_flashcards.length.toString();
-
-
             document.getElementById('popUpBox').style.display = "block";
             document.getElementById('show_answer').style.display = "block";
             document.getElementById('i_know').style.display = "none";
             document.getElementById('i_dont_know').style.display = "none";
             document.getElementById('sentence').innerText = current_flashcard.english;
-
         }
         this.dont_know = function () {
             document.getElementById('i_know').style.display = "none";
             document.getElementById('i_dont_know').style.display = "none";
             if (!incorrect_flashcards.includes(current_flashcard)) {
                 incorrect_flashcards.push(current_flashcard)
-                // document.getElementById('test4').innerText =" incorrectflashcards:" + incorrect_flashcards.length.toString();
             }
             this.next_flashcard()
         }
@@ -242,20 +217,16 @@
             correct_flashcards_in_lesson_length++
             if ((incorrect_flashcards.includes(current_flashcard)) && (!correct_flashcards.includes(current_flashcard))) {
                 correct_flashcards.push(current_flashcard)
-                // document.getElementById('test4').innerText =" incorrectflashcards:" + incorrect_flashcards.length.toString();
             }
             this.next_flashcard()
-
         }
         this.show_answer = function () {
             document.getElementById('i_know').style.display = "block";
             document.getElementById('i_dont_know').style.display = "block";
             document.getElementById('show_answer').style.display = "none";
             document.getElementById('sentence').innerHTML = current_flashcard.polish;
-
         }
         this.lesson_empty = function () {
-
             document.getElementById('popUpBox').style.display = "block";
             document.getElementById('exit').style.display = "block";
             document.getElementById('show_answer').style.display = "none";
@@ -267,10 +238,7 @@
             j = 0;
             incorrect_flashcards = incorrect_flashcards.filter(x => !correct_flashcards.includes(x))
             flashcards = incorrect_flashcards;
-            // document.getElementById('test4').innerText =" incorrectflashcards:" + incorrect_flashcards.length.toString();
             correct_flashcards = [];
-            // document.getElementById('test').innerText =j.toString()
-            // document.getElementById('test2').innerText =(flashcards.length).toString();
 
             this.next_flashcard();
         }
@@ -284,10 +252,10 @@
             }
             document.getElementById('sentence').innerText = "You already know " + (correct_flashcards_in_lesson_length).toString() + "/" + all_flashcards_in_lesson_length.toString() + " words";
         }
-
         this.ok = function () {
             document.getElementById('popUpBox').style.display = "none";
             document.getElementById("popUpOverlay").style.display = "none";
+            document.getElementById("update_form").submit();
 
         }
     }
@@ -298,10 +266,8 @@
         }
     }
 </script>
-
 <header>
 </header>
-
 <section>
     <div class="container">
         <table>
@@ -326,22 +292,17 @@
                 <td><a th:href="${'delete_lesson/'+ current_lesson.getId()}"><img
                         src="https://www.pngrepo.com/png/60993/180/delete.png"></a></td>
             </tr>
-
         </table>
-
-
         <div class="menu">
             <div class="row">
                 <button onclick="alert.render(0)">Study now all</button>
             </div>
-
             <div class="row">
                 <button><a class="white-a" href="/lessons">Add from file</a></button>
             </div>
         </div>
-
         <div>
-            <form action="#" th:action="add_lesson" method="post" th:object="${lesson}" class="form">
+            <form action="#" th:action="@{add_lesson}" method="post" th:object="${lesson}" class="form">
                 <div class="mixed_container">
                     <div class="row">
                         <div><input type="text" th:field="*{name}" id="name" placeholder="New... "></div>
@@ -350,14 +311,14 @@
                     <div class="alert" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </div>
             </form>
+
         </div>
     </div>
     <div id="popUpOverlay">
         <div id="popUpBox">
             <div id="box">
-                <div id="sentence">entertainment</div>
+                <div id="sentence">sentence</div>
                 <div class=bottom-bar>
-
                     <div class="button-bar">
                         <div>
                             <div id="next_round"></div>
@@ -370,22 +331,17 @@
 
                         <div id="show_answer"></div>
                     </div>
-
-
                     <div class="row " id="exit"></div>
-                    <!--                    <label id="test">test</label>-->
-                    <!--                    <label id="test2">test</label>-->
-                    <!--                    <label id="test3">test</label>-->
-                    <!--                    <label id="test4">test</label>-->
-
                 </div>
-
             </div>
         </div>
+        <form action="#" id = "update_form"  th:action="@{update_last_use}" method="post">
+            <input th:name="lesson_id" type="text"  id="form_input_lesson_id" >
+        </form>
+
+
     </div>
 </section>
-
-
 <footer>
 </footer>
 <!--<script src="./app.js" th:inline="javascript"></script>-->

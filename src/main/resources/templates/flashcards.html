@@ -49,7 +49,6 @@
             text-decoration: none;
         }
 
-
         form {
            max-width: 100%;
         }
@@ -95,12 +94,9 @@
         .file-upload-label:hover {
             border: 1px solid #99c0c9;
         }
-
-
     </style>
 </head>
 <body>
-
 <header>
 </header>
 <section>
@@ -119,16 +115,18 @@
             </tr>
         </table>
         <div>
-            <form method="post" th:action="'add_flashcard'">
+            <form action="#" th:object="${flashcard}" method="post" th:action="'add_flashcard'">
                 <label>Enter new Flashcard:</label>
                 <table class="new_flashcard_table">
                     <tr>
-                        <td><input name="english" type="text" placeholder="english"></td>
-                        <td><input name="polish" type="text" placeholder="polish"></td>
+                        <td><input name="english" type="text" th:field="*{english}" placeholder="english"></td>
+                        <td><input name="polish" type="text" th:field="*{polish}" placeholder="polish"></td>
                         <td><input name="description" type="text" placeholder="description"></td>
                         <td><input type="submit" value="Submit"></td>
                     </tr>
                 </table>
+                <div th:if="${#fields.hasErrors('english')}">errors1</div>
+                <div th:if="${#fields.hasErrors('polish')}">errors2</div>
 
             </form>
         </div>

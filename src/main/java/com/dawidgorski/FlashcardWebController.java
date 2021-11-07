@@ -1,13 +1,17 @@
 package com.dawidgorski;
 
 import com.dawidgorski.model.Flashcard;
+import com.dawidgorski.model.Lesson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 
 @Slf4j
@@ -16,7 +20,14 @@ public class FlashcardWebController {
     private final FlashcardService service;
     private final LessonService lessonService;
     long lesson_id;
+    Lesson lesson= new Lesson();
+    Flashcard flashcard =new Flashcard();
 
+    @ModelAttribute(value = "flashcard")
+    public Flashcard newFlashcard()
+    {
+        return flashcard;
+    }
 
     public FlashcardWebController(FlashcardService service, LessonService lessonService) {
         this.service = service;
@@ -31,24 +42,40 @@ public class FlashcardWebController {
     @GetMapping(MappingNames.FLASHCARDS + "/{id}")
     public String getFlashcards(Model model, @PathVariable Long id) {
         lesson_id = id;
+        lesson = lessonService.getLesson(id);
+
         model.addAttribute("lesson_name", lessonService.getLesson(id).getName());
         model.addAttribute("lesson_list", service.getFlashcardsByLessonId(id));
         return ViewNames.FLASHCARDS;
     }
+
 
     @GetMapping("flashcards/all")
     public String getAllFlashcards(Model model) {
         model.addAttribute("lesson_list", service.getFlashcards());
         return ViewNames.FLASHCARDS;
     }
-
+    @GetMapping("flashcards/" + MappingNames.ADD_FLASHCARD)
+    public String showFlashcards(){
+        return MappingNames.FLASHCARDS + "/" + lesson_id;
+    }
     @PostMapping("flashcards/" + MappingNames.ADD_FLASHCARD)
-    public String addFlashcard(@RequestParam String english,
+    public String addFlashcard(@Valid Flashcard flashcard,
+                               BindingResult bindingResult,
+                               RedirectAttributes attributes,
+                               @RequestParam String english,
                                @RequestParam String polish,
-                               @RequestParam String description) {
-        Flashcard flashcard = new Flashcard(english, polish, description, lessonService.getLesson(lesson_id));
-        service.createFlashcard(flashcard);
-        log.info("flashcard created: " + flashcard.getDescription());
+                               @RequestParam String description
+
+                               ) {
+        if (bindingResult.hasErrors()){
+            log.info("flashcard has errors");
+            attributes.addFlashAttribute("message", "Please enter english and polish word.");
+            return MappingNames.REDIRECT_FLASHCARDS + "/" + lesson_id;
+        }
+        Flashcard flashcard1 = new Flashcard(english, polish, description, lesson);
+        service.createFlashcard(flashcard1);
+        log.info("flashcard created: " + flashcard1.getDescription());
         return MappingNames.REDIRECT_FLASHCARDS + "/" + lesson_id;
     }
 
@@ -60,7 +87,7 @@ public class FlashcardWebController {
         }
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
-        service.createFlashcards(file, lessonService.getLesson(lesson_id));
+        service.createFlashcards(file, lesson);
         log.info("file uploaded: " + fileName);
         return MappingNames.REDIRECT_FLASHCARDS + "/" + lesson_id;
     }
