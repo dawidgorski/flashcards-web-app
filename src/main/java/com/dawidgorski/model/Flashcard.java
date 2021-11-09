@@ -24,14 +24,14 @@ public class Flashcard {
     @JoinColumn(name = "lesson_id")
     @JsonIgnore
     private Lesson lesson;
-//    private boolean isHard;
+   private boolean isHard;
 
     public Flashcard(String english, String polish, String description, Lesson lesson) {
         this.english = english;
         this.polish = polish;
         this.description = description;
         this.lesson = lesson;
-//        isHard = false;
+        isHard = false;
     }
 
     public Flashcard() {
