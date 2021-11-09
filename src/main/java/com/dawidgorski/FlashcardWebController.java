@@ -21,12 +21,17 @@ public class FlashcardWebController {
     private final LessonService lessonService;
     long lesson_id;
     Lesson lesson= new Lesson();
-    Flashcard flashcard =new Flashcard();
+
+    @ModelAttribute(value = "lesson_id")
+    public String getLessonId()
+    {
+        return ""+lesson_id;
+    }
 
     @ModelAttribute(value = "flashcard")
     public Flashcard newFlashcard()
     {
-        return flashcard;
+        return new Flashcard();
     }
 
     public FlashcardWebController(FlashcardService service, LessonService lessonService) {
@@ -86,9 +91,15 @@ public class FlashcardWebController {
             return MappingNames.REDIRECT_FLASHCARDS + "/" + lesson_id;
         }
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
-        service.createFlashcards(file, lesson);
-        log.info("file uploaded: " + fileName);
+
+        if(service.createFlashcards(file, lesson)){
+            log.info("file uploaded: " + fileName);
+            attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
+        }else{
+            attributes.addFlashAttribute("message", "Wrong data in file " + fileName + '!');
+            log.info("wrong data in file: " + fileName);
+        }
+
         return MappingNames.REDIRECT_FLASHCARDS + "/" + lesson_id;
     }
 
