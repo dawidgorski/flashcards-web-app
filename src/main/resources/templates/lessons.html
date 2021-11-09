@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <title>Lessons</title>
     <link rel="stylesheet" href="./style.css">
-    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
     <link href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_big-stone.css" rel="stylesheet">
-    <!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">-->
-
     <!--    <link rel="stylesheet" href="./awsm_theme_big-stone.css">-->
-<!--    <script src="microsoft.cognitiveservices.speech.sdk.bundle.js"></script>;-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js">-->
     <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
     </script>
 
@@ -154,15 +149,18 @@
             display: inline-flex;
 
         }
-        .cont{
+
+        .cont {
             vertical-align: center;
         }
-        .raw_button{
+
+        .raw_button {
             background: #1b2d3e;
             border: none;
             /*outline:0 !important;*/
         }
-        .raw_button:hover{
+
+        .raw_button:hover {
             border: none !important;
         }
 
@@ -170,13 +168,13 @@
             border: none !important;
             background-color: #1b2d3e;
         }
-        .raw_button:focus{
+
+        .raw_button:focus {
             border: none !important;
         }
     </style>
 </head>
 <body>
-<!--<button id="startSpeakTextAsyncButton" src="https://www.pngrepo.com/png/361845/180/volume-up.png">Start Text to Speech</button>-->
 
 <header>
 </header>
@@ -201,7 +199,9 @@
                 </td>
                 <td><a th:href="${'flashcards/'+ current_lesson.getId()}"><img
                         src="https://www.pngrepo.com/png/246383/180/edit-pencil.png"></a></td>
-                <td><a th:onclick="'javascript:disable_delete_button_l(' + ${current_lesson.getId()} + ');'" th:id="${'delete_button_l_' + current_lesson.getId()}" th:href="${'delete_lesson/'+ current_lesson.getId()}"id="${current_lesson.getId()}"><img
+                <td><a th:onclick="'javascript:disable_delete_button_l(' + ${current_lesson.getId()} + ');'"
+                       th:id="${'delete_button_l_' + current_lesson.getId()}"
+                       th:href="${'delete_lesson/'+ current_lesson.getId()}" id="${current_lesson.getId()}"><img
                         src="https://www.pngrepo.com/png/60993/180/delete.png"></a></td>
             </tr>
         </table>
@@ -231,13 +231,7 @@
             <div id="box">
 
                 <div class="cont">
-<!--                    <form class="float" action="#" id="speech_form" th:action="@{speech}" method="post">-->
-<!--                        <input th:name="word_text" type="text" id="speech_form_input_word">-->
-<!--                        <input id="speech_form_submit" type="image"-->
-<!--                               src="https://www.pngrepo.com/png/361845/180/volume-up.png" alt="Submit Form">-->
-<!--                    </form>-->
-                
-                    <div class="float" id="startSpeakTextAsyncDiv" ></div>
+                    <div class="float" id="startSpeakTextAsyncDiv"></div>
                     <div class="float" id="sentence">sentence</div>
                 </div>
 
@@ -279,167 +273,157 @@
     let all_flashcards_in_lesson_length = 0;
     let correct_flashcards_in_lesson_length;
 
-        function init_buttons() {
-            document.getElementById('i_know').innerHTML = '<button id="button_left" onclick="do_know()">I know</button>';
-            document.getElementById('i_dont_know').innerHTML = '<button id="button_right" onclick="dont_know()">I dont know</button>';
-            document.getElementById('show_answer').innerHTML = '<button onclick="show_answer()">Show answer</button>';
-            document.getElementById('exit').innerHTML = '<button onclick="ok()">exit</button>';
-            document.getElementById('next_round').innerHTML = '<button onclick="next_round()">Next Round</button>';
-            document.getElementById('startSpeakTextAsyncDiv').innerHTML = '<button class="raw_button" id="startSpeakTextAsyncButton" onclick="speech()" src="https://www.pngrepo.com/png/361845/180/volume-up.png"></button> ';
-            document.getElementById('startSpeakTextAsyncButton').innerHTML = '<image src="https://www.pngrepo.com/png/361845/180/volume-up.png"></image>';
-        }
-        function render(lesson_id) {
-            let i;
-            document.getElementById("popUpOverlay").style.display = "block";
-            document.getElementById("form_input_lesson_id").value = lesson_id.toString();
-            flashcards = [];
-            incorrect_flashcards = []
-            correct_flashcards = []
-            correct_flashcards_in_lesson_length = 0;
-            j = 0;
-            let flashcards_current_lesson = [];
-            if (lesson_id === 0) {
-                for (i = 0; i < lessons.length; i++) {
-                    flashcards_current_lesson = lessons[i].flashcards
-                    flashcards = flashcards.concat(flashcards_current_lesson);
-                }
-            } else {
+    function init_buttons() {
+        document.getElementById('i_know').innerHTML = '<button id="button_left" onclick="do_know()">I know</button>';
+        document.getElementById('i_dont_know').innerHTML = '<button id="button_right" onclick="dont_know()">I dont know</button>';
+        document.getElementById('show_answer').innerHTML = '<button onclick="show_answer()">Show answer</button>';
+        document.getElementById('exit').innerHTML = '<button onclick="ok()">exit</button>';
+        document.getElementById('next_round').innerHTML = '<button onclick="next_round()">Next Round</button>';
+        document.getElementById('startSpeakTextAsyncDiv').innerHTML = '<button class="raw_button" id="startSpeakTextAsyncButton" onclick="speech()" src="https://www.pngrepo.com/png/361845/180/volume-up.png"></button> ';
+        document.getElementById('startSpeakTextAsyncButton').innerHTML = '<image src="https://www.pngrepo.com/png/361845/180/volume-up.png"></image>';
+    }
 
-                for (i = 0; i < lessons.length; i++) {
-                    if (lesson_id === lessons[i].id) {
-                        flashcards = lessons[i].flashcards;
-                    }
+    function render(lesson_id) {
+        let i;
+        document.getElementById("popUpOverlay").style.display = "block";
+        document.getElementById("form_input_lesson_id").value = lesson_id.toString();
+        flashcards = [];
+        incorrect_flashcards = []
+        correct_flashcards = []
+        correct_flashcards_in_lesson_length = 0;
+        j = 0;
+        let flashcards_current_lesson = [];
+        if (lesson_id === 0) {
+            for (i = 0; i < lessons.length; i++) {
+                flashcards_current_lesson = lessons[i].flashcards
+                flashcards = flashcards.concat(flashcards_current_lesson);
+            }
+        } else {
+
+            for (i = 0; i < lessons.length; i++) {
+                if (lesson_id === lessons[i].id) {
+                    flashcards = lessons[i].flashcards;
                 }
             }
-            all_flashcards_in_lesson_length = flashcards.length;
-            init_buttons()
-            document.getElementById('popUpBox').style.display = "block";
-            document.getElementById('next_round').style.display = "none";
-            if (flashcards.length === 0) {
-                lesson_empty()
-            } else {
-                next_flashcard()
-            }
         }
-        function next_flashcard() {
-
-            document.getElementById('next_round').style.display = "none";
-            if (flashcards.length === j) {
-                summary()
-                return;
-            }
-            if (flashcards.length > j) {
-                current_flashcard = flashcards[j]
-                j++;
-            }
-            document.getElementById('startSpeakTextAsyncDiv').style.display = "inline-block";
-            document.getElementById('popUpBox').style.display = "block";
-            document.getElementById('show_answer').style.display = "block";
-            document.getElementById('i_know').style.display = "none";
-            document.getElementById('i_dont_know').style.display = "none";
-            document.getElementById('sentence').innerText = current_flashcard.english;
-            speech()
-        }
-        function dont_know() {
-            document.getElementById('i_know').style.display = "none";
-            document.getElementById('i_dont_know').style.display = "none";
-            // synthesizeSpeech()
-            if (!incorrect_flashcards.includes(current_flashcard)) {
-                incorrect_flashcards.push(current_flashcard)
-            }
+        all_flashcards_in_lesson_length = flashcards.length;
+        init_buttons()
+        document.getElementById('popUpBox').style.display = "block";
+        document.getElementById('next_round').style.display = "none";
+        if (flashcards.length === 0) {
+            lesson_empty()
+        } else {
             next_flashcard()
         }
-        function do_know() {
-            document.getElementById('i_know').style.display = "none";
-            document.getElementById('i_dont_know').style.display = "none";
-            correct_flashcards_in_lesson_length++
-            if ((incorrect_flashcards.includes(current_flashcard)) && (!correct_flashcards.includes(current_flashcard))) {
-                correct_flashcards.push(current_flashcard)
-            }
-            next_flashcard()
-        }
-        function show_answer() {
-            document.getElementById('i_know').style.display = "block";
-            document.getElementById('i_dont_know').style.display = "block";
-            document.getElementById('show_answer').style.display = "none";
-            document.getElementById('sentence').innerHTML = current_flashcard.polish;
-            document.getElementById('startSpeakTextAsyncDiv').style.display = "none";
+    }
 
+    function next_flashcard() {
 
+        document.getElementById('next_round').style.display = "none";
+        if (flashcards.length === j) {
+            summary()
+            return;
         }
-        function lesson_empty() {
-            document.getElementById('popUpBox').style.display = "block";
-            document.getElementById('exit').style.display = "block";
-            document.getElementById('show_answer').style.display = "none";
-            document.getElementById('i_know').style.display = "none";
-            document.getElementById('i_dont_know').style.display = "none";
-            document.getElementById('sentence').innerHTML = "There is no flashcards here."
+        if (flashcards.length > j) {
+            current_flashcard = flashcards[j]
+            j++;
         }
-        function next_round() {
-            j = 0;
-            incorrect_flashcards = incorrect_flashcards.filter(x => !correct_flashcards.includes(x))
-            flashcards = incorrect_flashcards;
-            correct_flashcards = [];
-            next_flashcard();
-        }
-        function summary() {
-            document.getElementById('i_know').style.display = "none";
-            document.getElementById('i_dont_know').style.display = "none";
-            document.getElementById('show_answer').style.display = "none";
-            document.getElementById('next_round').style.display = "block";
-            if (correct_flashcards_in_lesson_length === all_flashcards_in_lesson_length) {
-                document.getElementById('next_round').style.display = "none";
-            }
-            document.getElementById('sentence').innerText = "You already know " + (correct_flashcards_in_lesson_length).toString() + "/" + all_flashcards_in_lesson_length.toString() + " words";
-        }
-        function ok() {
-            document.getElementById('popUpBox').style.display = "none";
-            document.getElementById("popUpOverlay").style.display = "none";
-            document.getElementById("update_form").submit();
+        document.getElementById('startSpeakTextAsyncDiv').style.display = "inline-block";
+        document.getElementById('popUpBox').style.display = "block";
+        document.getElementById('show_answer').style.display = "block";
+        document.getElementById('i_know').style.display = "none";
+        document.getElementById('i_dont_know').style.display = "none";
+        document.getElementById('sentence').innerText = current_flashcard.english;
+        speech()
+    }
 
-        // }
+    function dont_know() {
+        document.getElementById('i_know').style.display = "none";
+        document.getElementById('i_dont_know').style.display = "none";
+        // synthesizeSpeech()
+        if (!incorrect_flashcards.includes(current_flashcard)) {
+            incorrect_flashcards.push(current_flashcard)
+        }
+        next_flashcard()
+    }
+
+    function do_know() {
+        document.getElementById('i_know').style.display = "none";
+        document.getElementById('i_dont_know').style.display = "none";
+        correct_flashcards_in_lesson_length++
+        if ((incorrect_flashcards.includes(current_flashcard)) && (!correct_flashcards.includes(current_flashcard))) {
+            correct_flashcards.push(current_flashcard)
+        }
+        next_flashcard()
+    }
+
+    function show_answer() {
+        document.getElementById('i_know').style.display = "block";
+        document.getElementById('i_dont_know').style.display = "block";
+        document.getElementById('show_answer').style.display = "none";
+        document.getElementById('sentence').innerHTML = current_flashcard.polish;
+        document.getElementById('startSpeakTextAsyncDiv').style.display = "none";
+
 
     }
 
-    // function synthesizeSpeech() {
-    //     const speechConfig = sdk.SpeechConfig.fromSubscription("1081374df69e4d1b93b26cc936fe9182", "westeurope");
-    //     const audioConfig = sdk.AudioConfig.fromDefaultSpeakerOutput();
-    //
-    //     const synthesizer = new SpeechSynthesizer(speechConfig, audioConfig);
-    //     synthesizer.speakTextAsync(
-    //         "Synthesizing directly to speaker output.",
-    //         result => {
-    //             if (result) {
-    //                 synthesizer.close();
-    //                 return result.audioData;
-    //             }
-    //         },
-    //         error => {
-    //             console.log(error);
-    //             synthesizer.close();
-    //         });
-    // }
+    function lesson_empty() {
+        document.getElementById('popUpBox').style.display = "block";
+        document.getElementById('exit').style.display = "block";
+        document.getElementById('show_answer').style.display = "none";
+        document.getElementById('i_know').style.display = "none";
+        document.getElementById('i_dont_know').style.display = "none";
+        document.getElementById('sentence').innerHTML = "There is no flashcards here."
+    }
+
+    function next_round() {
+        j = 0;
+        incorrect_flashcards = incorrect_flashcards.filter(x => !correct_flashcards.includes(x))
+        flashcards = incorrect_flashcards;
+        correct_flashcards = [];
+        next_flashcard();
+    }
+
+    function summary() {
+        document.getElementById('i_know').style.display = "none";
+        document.getElementById('i_dont_know').style.display = "none";
+        document.getElementById('show_answer').style.display = "none";
+        document.getElementById('next_round').style.display = "block";
+        if (correct_flashcards_in_lesson_length === all_flashcards_in_lesson_length) {
+            document.getElementById('next_round').style.display = "none";
+        }
+        document.getElementById('sentence').innerText = "You already know " + (correct_flashcards_in_lesson_length).toString() + "/" + all_flashcards_in_lesson_length.toString() + " words";
+    }
+
+    function ok() {
+        document.getElementById('popUpBox').style.display = "none";
+        document.getElementById("popUpOverlay").style.display = "none";
+        document.getElementById("update_form").submit();
+
+
+    }
 
     window.onclick = function (event) {
         if (event.target === document.getElementById("popUpOverlay")) {
             document.getElementById("popUpOverlay").style.display = "none";
         }
     }
+
     function disable_delete_button_l(id) {
         const btn = document.getElementById('delete_button_l_' + id);
-        btn.style.pointerEvents="none";
+        btn.style.pointerEvents = "none";
     }
 
-    function speech(){
+    function speech() {
         var synthesizer;
         let inputText = document.getElementById('sentence').innerHTML;
-            var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("1081374df69e4d1b93b26cc936fe9182", "westeurope");
-            synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
-            synthesizer.speakTextAsync(
-                inputText, function () {
-                    synthesizer.close();
-                    synthesizer = undefined;});
-
+        var speechConfig = SpeechSDK.SpeechConfig.fromSubscription("1081374df69e4d1b93b26cc936fe9182", "westeurope");
+        synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+        synthesizer.speakTextAsync(
+            inputText, function () {
+                synthesizer.close();
+                synthesizer = undefined;
+            });
     }
 
 </script>
