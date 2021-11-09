@@ -63,7 +63,7 @@ public class FlashcardService {
     }
 
 
-    public void createFlashcards(MultipartFile file, Lesson lesson) {
+    public boolean createFlashcards(MultipartFile file, Lesson lesson) {
         List<Flashcard> flashcards =new ArrayList<>();
         try (InputStream input =file.getInputStream();
              CSVReader reader = new CSVReaderBuilder(new InputStreamReader(input)).withCSVParser(new CSVParser()).build();){
@@ -84,12 +84,13 @@ public class FlashcardService {
                 flashcards.add(flashcard);
             }
             flashcardRepository.saveAll(flashcards);
-        } catch (CsvValidationException csvValidationException) {
+            return true;
+        } catch (CsvValidationException | IOException csvValidationException) {
             csvValidationException.printStackTrace();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+            return false;
+        } catch (ArrayIndexOutOfBoundsException e){
+            return false;
         }
-
 
 
     }
