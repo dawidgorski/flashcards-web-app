@@ -32,7 +32,9 @@ public class LessonController {
     @PostMapping("update_last_use")
     public String updateLastUse(@RequestParam(value = "lesson_id")String lesson_id){
         Long id= Long.parseLong(lesson_id);
-        lessonService.updateLessonLastUse(id);
+        if(id!=0){
+            lessonService.updateLessonLastUse(id);
+        }
         return MappingNames.REDIRECT_LESSONS;
     }
 
