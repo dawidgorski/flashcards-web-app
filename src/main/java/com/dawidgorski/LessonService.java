@@ -17,7 +17,7 @@ public class LessonService {
         this.repository = repository;
     }
     public void createLesson(Lesson lesson){
-        lesson.setLastUse();
+//        lesson.setLastUse();
         repository.save(lesson);
     }
 
@@ -39,7 +39,7 @@ public class LessonService {
         lesson.setLastUse(correctLesson.getLastUse());
     }
     public void updateLessonLastUse(Long id) {
-        log.info("id: "+id);
+        log.info("lesson last use with id: "+id +"updated");
         Lesson lessonToUpdate = repository.getById(id);
         lessonToUpdate.setLastUse();
         repository.save(lessonToUpdate);
