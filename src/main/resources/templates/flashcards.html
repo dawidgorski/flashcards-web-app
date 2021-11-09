@@ -111,7 +111,8 @@
                 <td class="flashcard-name" th:text="${flashcard.getEnglish}"></td>
                 <td th:text="${flashcard.getPolish}"></td>
                 <td th:text="${flashcard.getDescription()}"></td>
-                <td><a th:href="${'delete_flashcard/'+ flashcard.getId()}"><img src="https://www.pngrepo.com/png/60993/180/delete.png"></a></td>
+                <td><a th:onclick="'javascript:disable_delete_button(' + ${flashcard.getId()} + ');'" th:href="${'delete_flashcard/'+ flashcard.getId()}" th:id="${'delete_button_' + flashcard.getId()}"><img src="https://www.pngrepo.com/png/60993/180/delete.png"></a></td>
+
             </tr>
         </table>
         <div>
@@ -119,9 +120,9 @@
                 <label>Enter new Flashcard:</label>
                 <table class="new_flashcard_table">
                     <tr>
-                        <td><input name="english" type="text" th:field="*{english}" placeholder="english"></td>
-                        <td><input name="polish" type="text" th:field="*{polish}" placeholder="polish"></td>
-                        <td><input name="description" type="text" placeholder="description"></td>
+                        <td><input name="english" type="text" th:field="*{english}" value="" placeholder="english"></td>
+                        <td><input name="polish" type="text" th:field="*{polish}" value="" placeholder="polish"></td>
+                        <td><input name="description" type="text" value="" placeholder="description"></td>
                         <td><input type="submit" value="Submit"></td>
                     </tr>
                 </table>
@@ -145,7 +146,10 @@
                 <!--                <button><a class="white-button" href="/lessons">Add from file</a></button>-->
             </div>
         </div>
-        <p th:text="${message}" th:if="${message ne null}" class="alert "></p>
+        <div>
+            <p th:text="${message}" th:if="${message ne null}" class="alert "></p>
+        </div>
+
     </div>
 </section>
 
