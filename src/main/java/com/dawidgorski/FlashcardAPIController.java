@@ -26,7 +26,10 @@ public class FlashcardAPIController {
     public List<Lesson> getLessons() {
         return lessonService.getLessons();
     }
-
+    @DeleteMapping("api/delete/lesson/{id}")
+    public void deleteLesson(@PathVariable Long id) {
+        lessonService.deleteLesson(id);
+    }
     @GetMapping("api/flashcards")
     public List<Flashcard> getFlashcardsJSON() {
         return flashcardService.getFlashcards();
@@ -37,7 +40,7 @@ public class FlashcardAPIController {
         log.info("get Flashcard id= {}",id);
         return flashcardService.getFlashcard(id);
     }
-    @DeleteMapping("api/delete/{id}")
+    @DeleteMapping("api/delete/flashcard/{id}")
     public void deleteFlashcard(@PathVariable Long id){
         flashcardService.deleteFlashcard(id);
     }
