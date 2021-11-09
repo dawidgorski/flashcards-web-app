@@ -1,9 +1,12 @@
 package com.dawidgorski.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Entity
@@ -15,11 +18,21 @@ public class Lesson {
     private Long id;
     @NotEmpty(message = "The lesson name can't be empty")
     private String name;
-    private LocalDate lastUse;
+    private LocalDateTime lastUse;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lesson")
     public List<Flashcard> flashcards;
+    @Transient
+    @JsonIgnore
+    private long daysAgo;
+    public long getDaysAgo(){
+        if (lastUse!=null){
+            long days = ChronoUnit.DAYS.between(lastUse,LocalDateTime.now());
+            return days;
+        }
+        return 0;
 
-    public LocalDate getLastUse() {
+    }
+    public LocalDateTime getLastUse() {
         return lastUse;
     }
 
@@ -27,11 +40,10 @@ public class Lesson {
     }
 
     public Lesson(String name) {
-        this(name, null);
+        this(name,null);
 
     }
-
-    public Lesson(String name, LocalDate lastUse) {
+    public Lesson(String name, LocalDateTime lastUse) {
         this.name = name;
     }
 
@@ -48,10 +60,9 @@ public class Lesson {
     }
 
     public void setLastUse() {
-        this.lastUse = LocalDate.now();
+        this.lastUse = LocalDateTime.now();
     }
-
-    public void setLastUse(LocalDate dateTime) {
+    public void setLastUse(LocalDateTime dateTime) {
         this.lastUse = dateTime;
     }
 
