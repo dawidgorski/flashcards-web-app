@@ -3,98 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Flashcards</title>
-<!--    <link rel="stylesheet" href="./style.css">-->
-    <link href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_big-stone.css" rel="stylesheet">
-    <style>
-        form select, form input[type], form textarea{
-            margin-bottom: 0px;
-            width: 100%;
-        }
-        input[type="file"]{
-            display:none;
-            padding: calc(.25em - 1px) 0.5em;
-            font-size: 1em;
-        }
-        html{
-            color: black;
-        }
-        .alert {
-            color: red;
-        }
-        body{
-            font-size: 1.125rem;
-        }
-        .container {
-            text-align: center;
-            max-width: 1264px;
-            width: 50%;
-            background: none;
-            justify-content: space-between;
-            margin: 0 auto;
-        }
-
-        table {
-            border: none;
-            padding-top: 5px;
-            text-align: center;
-            background: none;
-            display: inline;
-            padding-bottom: 5px;
-
-        }
-
-        table th, table td {
-            width: 8%;
-            font-size: 1em;
-            text-decoration: none;
-        }
-
-        form {
-           max-width: 100%;
-        }
-        button {
-            padding: 8px;
-        }
-        .menu {
-            display: inline-flex;
-        }
-        a:visited{
-            text-decoration: none;
-            color:#99c0c9;
-        }
-        a {
-            text-decoration: none;
-            color:black;
-        }
-
-        .row {
-            padding: 10px;
-        }
-        img{
-            height: 25px;
-            width: 25px;
-        }
-        label{
-            text-align: left;
-            padding-top: 5px;
-            padding-bottom: 5px;
-        }
-
-        .file-upload-label {
-            background: #184165;
-            cursor: pointer;
-            color: #99c0c9;
-            border: 1px solid #145e86;
-            /*padding: 8px;*/
-            padding-bottom:  10px;
-            padding-left:  8px;
-            padding-right:  8px;
-            height: 1.05em;
-        }
-        .file-upload-label:hover {
-            border: 1px solid #99c0c9;
-        }
-    </style>
+    <link href="/awsm_theme_big-stone.css" rel="stylesheet">
+    <link rel="stylesheet" href="/flashcards.css">
 </head>
 <body>
 <header>
@@ -111,7 +21,7 @@
                 <td class="flashcard-name" th:text="${flashcard.getEnglish}"></td>
                 <td th:text="${flashcard.getPolish}"></td>
                 <td th:text="${flashcard.getDescription()}"></td>
-                <td><a th:onclick="'javascript:disable_delete_button(' + ${flashcard.getId()} + ');'" th:href="${'delete_flashcard/'+ flashcard.getId()}" th:id="${'delete_button_' + flashcard.getId()}"><img src="https://www.pngrepo.com/png/60993/180/delete.png"></a></td>
+                <td><a th:onclick="'javascript:disable_delete_button(' + ${flashcard.getId()} + ');'" th:href="${'delete_flashcard/'+ flashcard.getId()}" th:id="${'delete_button_' + flashcard.getId()}"><img src="/icons/delete.png"></a></td>
 
             </tr>
         </table>
