@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <title>Lessons</title>
     <link href="https://igoradamenko.github.io/awsm.css/css/awsm_theme_big-stone.css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://www.pngrepo.com/png/201668/180/brain.png">
 <!--    <link rel="stylesheet" href="./style.css">-->
     <!--    <link rel="stylesheet" href="./awsm_theme_big-stone.css">-->
     <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
-    </script>
-
     <style>
         html {
             color: black;
@@ -23,7 +22,7 @@
 
         table th, table td {
             width: 10%;
-
+            vertical-align: middle;
             text-decoration: none;
         }
 
@@ -224,13 +223,28 @@
             box-shadow: 0 0 10px black;
             border-radius: 10px;
             position: absolute;
-            top: 40%;
+            top: 300px;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 99;
             padding: 10px;
             text-align: center;
             display: none;
+        }
+        #flashcard_image_div{
+
+            width: 200px;
+            height: 200px;
+            /*width: 80%;*/
+            /*height: 20%;*/
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #flashcard_image{
+            width: 100%;
+            height: 100%;
         }
 
         #popUpOverlay{
@@ -307,12 +321,14 @@
     </div>
     <div id="popUpOverlay">
         <div id="popUpBox">
+            <div id ="flashcard_image_div"></div>
             <div id="box">
 
                 <div class="cont">
                     <div class="float" id="startSpeakTextAsyncDiv"></div>
-                    <div class="float" id="sentence">sentence</div>
+                    <div class="float" id="sentence"></div>
                 </div>
+                <div id="description"></div>
 
                 <div class=bottom-bar>
                     <div class="button-bar">
@@ -358,8 +374,9 @@
         document.getElementById('show_answer').innerHTML = '<button onclick="show_answer()">Show answer</button>';
         document.getElementById('exit').innerHTML = '<button onclick="ok()">exit</button>';
         document.getElementById('next_round').innerHTML = '<button onclick="next_round()">Next Round</button>';
-        document.getElementById('startSpeakTextAsyncDiv').innerHTML = '<button class="raw_button" id="startSpeakTextAsyncButton" onclick="speech()" src="https://www.pngrepo.com/png/361845/180/volume-up.png"></button> ';
+        document.getElementById('startSpeakTextAsyncDiv').innerHTML = '<button class="raw_button" id="startSpeakTextAsyncButton" onclick="speech()" ></button> ';
         document.getElementById('startSpeakTextAsyncButton').innerHTML = '<image src="https://www.pngrepo.com/png/361845/180/volume-up.png"></image>';
+        document.getElementById('flashcard_image_div').innerHTML = '<image id ="flashcard_image" src="https://www.pngrepo.com/png/361845/180/volume-up.png"></image>';
     }
 
     function render(lesson_id) {
@@ -413,7 +430,23 @@
         document.getElementById('i_know').style.display = "none";
         document.getElementById('i_dont_know').style.display = "none";
         document.getElementById('sentence').innerText = current_flashcard.english;
+        document.getElementById('description').innerText = current_flashcard.description;
+        // document.getElementById('flashcard_image').src = current_flashcard.imagePath;
+        document.getElementById('flashcard_image').style.display = "none";
+
+        // var url = 'https://www.google.com/search?q=' + current_flashcard.english + '&tbm=isch&ved=2ahUKEwih5MPwiY_0AhVXtyoKHcImDyYQ2-cCegQIABAA&oq='+current_flashcard.english+'&gs_lcp=CgNpbWcQAzIHCCMQ7wMQJzIHCCMQ7wMQJzIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeUABYAGDSIWgBcAB4AIABWIgBWJIBATGYAQCqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=9maMYaGRB9fuqgHCzbywAg&bih=835&biw=1281&client=ubuntu&hs=AIh'
+        // var dom = getSourceAsDOM(url)
+        // var src = dom.getElementsByClassName('bRMDJf islir')[0].firstElementChild.src
+        // document.getElementById('flashcard_image').src = src;
         speech()
+    }
+    function getSourceAsDOM(url)
+    {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET",url,false);
+        xmlhttp.send();
+        var parser=new DOMParser();
+        return parser.parseFromString(xmlhttp.responseText,"text/html");
     }
 
     function dont_know() {

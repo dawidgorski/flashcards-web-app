@@ -9,11 +9,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
-public class FlashcardAPIController {
+public class RESTController {
     private final FlashcardService flashcardService;
     private final LessonService lessonService;
 
-    public FlashcardAPIController(FlashcardService flashcardService, LessonService lessonService) {
+    public RESTController(FlashcardService flashcardService, LessonService lessonService) {
         this.flashcardService = flashcardService;
         this.lessonService = lessonService;
     }

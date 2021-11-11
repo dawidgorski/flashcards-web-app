@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
-public class FlashcardWebController {
+public class FlashcardController {
     private final FlashcardService service;
     private final LessonService lessonService;
     long lesson_id;
@@ -34,7 +34,7 @@ public class FlashcardWebController {
         return new Flashcard();
     }
 
-    public FlashcardWebController(FlashcardService service, LessonService lessonService) {
+    public FlashcardController(FlashcardService service, LessonService lessonService) {
         this.service = service;
         this.lessonService = lessonService;
     }
@@ -70,7 +70,8 @@ public class FlashcardWebController {
                                RedirectAttributes attributes,
                                @RequestParam String english,
                                @RequestParam String polish,
-                               @RequestParam String description
+                               @RequestParam String description,
+                               @RequestParam String image
 
                                ) {
         if (bindingResult.hasErrors()){
@@ -78,7 +79,7 @@ public class FlashcardWebController {
             attributes.addFlashAttribute("message", "Please enter english and polish word.");
             return MappingNames.REDIRECT_FLASHCARDS + "/" + lesson_id;
         }
-        Flashcard flashcard1 = new Flashcard(english, polish, description, lesson);
+        Flashcard flashcard1 = new Flashcard(english, polish, description, lesson, image);
         service.createFlashcard(flashcard1);
         log.info("flashcard created: " + flashcard1.getDescription());
         return MappingNames.REDIRECT_FLASHCARDS + "/" + lesson_id;
@@ -93,11 +94,11 @@ public class FlashcardWebController {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         if(service.createFlashcards(file, lesson)){
-            log.info("file uploaded: " + fileName);
+            log.info("file uploaded: {}",fileName);
             attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
         }else{
             attributes.addFlashAttribute("message", "Wrong data in file " + fileName + '!');
-            log.info("wrong data in file: " + fileName);
+            log.info("wrong data in file: {}",fileName);
         }
 
         return MappingNames.REDIRECT_FLASHCARDS + "/" + lesson_id;

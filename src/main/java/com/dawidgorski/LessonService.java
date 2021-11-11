@@ -44,7 +44,6 @@ public class LessonService {
         lessonToUpdate.setLastUse();
         repository.save(lessonToUpdate);
 
-
     }
     public Lesson findLessonById(Long id) {
         Optional<Lesson> lesson = repository.findById(id);

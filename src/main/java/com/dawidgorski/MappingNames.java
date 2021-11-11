@@ -12,5 +12,7 @@ public final class MappingNames {
     final static String ADD_LESSON = "add_lesson";
     final static String DELETE_LESSON = "delete_lesson/";
     final static String REDIRECT_LESSONS = "redirect:/" + LESSONS;
+
     final static String ADD_FILE = "add_file";
+    final static String UPDATE_LAST_USE = "update_last_use";
 }

@@ -29,7 +29,7 @@ public class LessonController {
         return new Lesson();
     }
 
-    @PostMapping("update_last_use")
+    @PostMapping(MappingNames.UPDATE_LAST_USE)
     public String updateLastUse(@RequestParam(value = "lesson_id")String lesson_id){
         Long id= Long.parseLong(lesson_id);
         if(id!=0){

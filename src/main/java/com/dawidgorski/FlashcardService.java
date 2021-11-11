@@ -77,7 +77,12 @@ public class FlashcardService {
                 try {
                     flashcard.setDescription(line[2]);
                 }catch (ArrayIndexOutOfBoundsException e){
-                    flashcard.setDescription("");
+                    flashcard.setDescription(null);
+                }
+                try {
+                    flashcard.setImagePath(line[3]);
+                }catch (ArrayIndexOutOfBoundsException e){
+                    flashcard.setImagePath(null);
                 }
 
                 flashcard.setLesson(lesson);
