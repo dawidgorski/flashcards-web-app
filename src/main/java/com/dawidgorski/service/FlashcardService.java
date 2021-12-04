@@ -1,5 +1,7 @@
-package com.dawidgorski;
+package com.dawidgorski.service;
 
+import com.dawidgorski.repository.FlashcardRepository;
+import com.dawidgorski.repository.LessonRepository;
 import com.dawidgorski.model.Flashcard;
 import com.dawidgorski.model.Lesson;
 import com.opencsv.CSVParser;

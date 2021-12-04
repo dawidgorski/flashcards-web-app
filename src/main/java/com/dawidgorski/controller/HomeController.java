@@ -1,5 +1,7 @@
-package com.dawidgorski;
+package com.dawidgorski.controller;
 
+import com.dawidgorski.model.MappingNames;
+import com.dawidgorski.model.ViewNames;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

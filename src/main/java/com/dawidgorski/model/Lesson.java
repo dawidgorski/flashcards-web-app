@@ -13,8 +13,8 @@ import java.util.List;
 @Table(name = "lessons")
 public class Lesson {
     @Id
-    @SequenceGenerator(name = "sequence_gen", sequenceName = "sequence_gen", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(name = "sequence_gen", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_gen")
     private Long id;
     @NotEmpty(message = "The lesson name can't be empty")
     private String name;

@@ -1,4 +1,4 @@
-package com.dawidgorski;
+package com.dawidgorski.repository;
 
 import com.dawidgorski.model.Flashcard;
 import org.springframework.data.jpa.repository.JpaRepository;

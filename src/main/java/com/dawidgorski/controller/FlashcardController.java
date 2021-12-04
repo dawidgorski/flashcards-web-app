@@ -1,5 +1,9 @@
-package com.dawidgorski;
+package com.dawidgorski.controller;
 
+import com.dawidgorski.service.FlashcardService;
+import com.dawidgorski.service.LessonService;
+import com.dawidgorski.model.MappingNames;
+import com.dawidgorski.model.ViewNames;
 import com.dawidgorski.model.Flashcard;
 import com.dawidgorski.model.Lesson;
 import lombok.extern.slf4j.Slf4j;
